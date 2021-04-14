@@ -23,7 +23,7 @@ type OptionType = {
     uid: UID | null,
 }
 export const options: OptionType = {
-    appId: process.env.REACT_APP_appId || '',
+    appId: process.env.REACT_APP_AGORA_appId || '',
     token: null,
     uid: null,
 };
