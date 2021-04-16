@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { db, firebaseApp } from 'config/firebase';
 
 const FireTest: React.FC = () => {
-const [chats, setChats] = useState<Array<any>>([]);
+    const [chats, setChats] = useState<Array<any>>([]);
+    const [text, setText] = useState<string>('');
 
+    // get Database
     useEffect(() => {
         const chatRef = db.collection('chat');
 
@@ -19,6 +21,21 @@ const [chats, setChats] = useState<Array<any>>([]);
         })
     }, []);
 
+    // send Database
+    // add
+    const addDocument = () => {
+        db
+            .collection('chat')
+            .add({
+                content: text
+            })
+            .then((ref) => {
+                console.log(ref);
+            });
+    }
+    //
+
+
     return <div>
         {
             chats.map((chat) => {
@@ -27,6 +44,8 @@ const [chats, setChats] = useState<Array<any>>([]);
                 </div>
             })
         }
+        <textarea onChange={(evt) => setText(evt.target.value)} value={text}></textarea>
+        <button onClick={addDocument}>add</button>
     </div>;
 }
 
