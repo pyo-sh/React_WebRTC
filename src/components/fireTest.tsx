@@ -5,6 +5,68 @@ const FireTest: React.FC = () => {
     const [chats, setChats] = useState<Array<any>>([]);
     const [text, setText] = useState<string>('');
 
+    // 로그인 기능 구현
+    const login = () => {
+        const email = '', password = '';
+        firebaseApp.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+            const uid = (firebaseApp.auth().currentUser || {}).uid; 
+            if (uid) {
+                // login status
+                // set uid
+            }
+            else {
+                // error
+            }
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+
+        /*
+        // 브라우저 내에 저장되어 있다면 (auth().signOut()을 한게 아니라면)
+        // Current User를 불러올 수 있다.
+        // 처음 Refresh될 때 실행되야 한다.
+        // Redux 혹은 App의 UseEffect 에서 가지고 있어야 한다.
+        firebaseApp.auth().onAuthStateChanged((user) => {
+            const uid = (firebaseApp.auth().currentUser || {}).uid; 
+            if (uid) {
+                // login status
+                // set uid
+            }
+            else {
+                // error
+            }
+        })
+        */
+    }
+
+    // 회원가입 하기~~
+    const signup = () => {
+        const email = '', password = '';
+        firebaseApp.auth().createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+            const uid = (firebaseApp.auth().currentUser || {}).uid;
+            if (uid) {
+                // ~~
+            }
+            else {
+                // error
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+    }
+
+    // 로그아웃
+    const logout = () => {
+        firebaseApp.auth().signOut();
+    }
+
+
     // get Database
     useEffect(() => {
         const chatRef = db.collection('chat');
