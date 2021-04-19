@@ -5,9 +5,17 @@ const HeaderBox = styled.div`
     height: 75px;
     padding: 0 30px;
 
+    position: absolute;
+    top: 0;
+    left: 0;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    color: #f8f8f8;
+    background-color: #66bb6a;
+    box-shadow: 0 1px 2.94px 0.06px rgb(4 26 55 / 16%);
 
     .Header-Button {
         width: 115px;
@@ -33,7 +41,7 @@ const HeaderBox = styled.div`
         user-select: none;
 
         font-size: 40px;
-        color: #0BAC56;
+        color: #f8f8f8;
     }
     .Header-Profile{
         display: flex;
@@ -52,7 +60,7 @@ const HeaderBox = styled.div`
         margin-left: 20px;
         
         font-size: 16px;
-        color: rgba(0,0,0,0.95);
+        color: #f8f8f8;
         overflow: hidden;
 
         display: flex;

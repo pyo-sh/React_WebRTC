@@ -3,6 +3,7 @@ import AppBox from 'styles/AppBox';
 import 'styles/font.css';
 import { Route } from 'react-router-dom';
 import Main from 'components/main/Main';
+import Room from 'components/chat/Room';
 import Login from 'components/auth/Login';
 import SignUp from 'components/auth/SignUp';
 
@@ -32,7 +33,10 @@ const App: React.FC = () => {
     return (
         <AppBox>
         {uid
-        ? <Route path="/" component={Main} exact/>
+        ?<>
+            <Route path="/" component={Main} exact/>
+            <Route path="/chat/:id" component={Room}/>
+        </>
         : <Route path="/" component={Login} exact/>
         }
         <Route path="/signup" component={SignUp}/>
