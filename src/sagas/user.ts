@@ -37,7 +37,7 @@ function* LogInUser(action: ReturnType<typeof LogIn_User_Request>) {
         yield put(LogIn_User_Success(result));
     } catch(error) {
         console.error(error);
-        yield put(LogIn_User_Failure(error));
+        yield put(LogIn_User_Failure(error.message));
     }
 };
 function* watchLogInUser() {

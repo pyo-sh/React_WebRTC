@@ -1,7 +1,7 @@
 // State
 export type StateType = {
     uid: string,
-    nickname: string,
+    name: string,
     email: string,
     imageURL: string,
     isLoadingUser: boolean,
@@ -10,7 +10,7 @@ export type StateType = {
 
 const initialState: StateType = {
     uid: '',
-    nickname: '',
+    name: '',
     email: '',
     imageURL: '',
     isLoadingUser: false,
@@ -105,7 +105,7 @@ function userReducer (
         case LOGOUT_USER_REQUEST:
             return {
                 uid: '',
-                nickname: '',
+                name: '',
                 email: '',
                 imageURL: '',
                 isLoadingUser: false,

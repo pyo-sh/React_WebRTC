@@ -13,6 +13,19 @@ const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
+    .Delete-Button {
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .Delete-Input {
+        background: none;
+        border: none;
+        outline: none;
+    }
 `;
 
 export default GlobalStyle;

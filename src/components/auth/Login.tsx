@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import LoginBox from 'styles/auth/LoginBox';
+import LoginBox, { LoginWrapper } from 'styles/auth/LoginBox';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducers';
 import { LogIn_User_Request } from 'reducers/user';
 
@@ -10,6 +10,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
 
     const dispatch = useDispatch();
+    const { loadUserErrorReason } = useSelector((state: RootState) => state.user)
 
     const onChangeInput = (
         setState: React.Dispatch<React.SetStateAction<string>>
@@ -34,30 +35,39 @@ const Login: React.FC = () => {
     };
 
     return (
+        <LoginWrapper>
         <LoginBox>
-            <input
-                className="LoginBox-Input"
-                placeholder="이메일을 입력하세요"
-                onChange={onChangeInput(setEmail)}
-                value={email}
-                />
-            <input
-                className="LoginBox-Input"
-                placeholder="비밀번호를 입력하세요"
-                onChange={onChangeInput(setPassword)}
-                value={password}
-                />
-            <div>
-                <button
-                    onClick={onClickLogin}
-                    >
-                    Login
-                </button>
+            <div className="Login-Logo">WebRTC</div>
+            <section className="Login-Inputs">
+                <input
+                    className="Delete-Input Login-Input"
+                    placeholder="이메일을 입력하세요"
+                    onChange={onChangeInput(setEmail)}
+                    value={email}
+                    />
+                <hr/>
+                <input
+                    className="Delete-Input Login-Input"
+                    placeholder="비밀번호를 입력하세요"
+                    onChange={onChangeInput(setPassword)}
+                    value={password}
+                    type="password"
+                    />
+            </section>
+            <p className="Login-Error">{loadUserErrorReason}</p>
+            <button
+                className="Delete-Button Login-Button"
+                onClick={onClickLogin}
+                >
+                로그인
+            </button>
+            <section className="Login-SubClick">
                 <Link to="/signup">
-                    <button>Signup</button>
+                    회원가입
                 </Link>
-            </div>
+            </section>
         </LoginBox>
+        </LoginWrapper>
     );
 }
 

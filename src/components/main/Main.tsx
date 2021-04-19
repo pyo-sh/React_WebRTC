@@ -1,10 +1,11 @@
 import React from 'react';
-import MainBox from 'styles/main/Main';
+import MainBox from 'styles/main/MainBox';
+import Header from 'components/main/Header';
 
 const Main: React.FC = () => {
     return (
         <MainBox>
-            hi
+            <Header/>
         </MainBox>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import AppBox from 'styles/AppBox';
+import 'styles/font.css';
 import { Route } from 'react-router-dom';
 import Main from 'components/main/Main';
 import Login from 'components/auth/Login';
