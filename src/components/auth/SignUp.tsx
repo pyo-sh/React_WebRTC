@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SignUpBox from 'styles/signup/SignUpBox';
+import SignUpBox from 'styles/auth/SignUpBox';
 import { useDispatch } from 'react-redux';
 import { RootState } from 'reducers';
 import { SignUp_User_Request } from 'reducers/user';
@@ -30,9 +30,6 @@ const SignUp: React.FC = () => {
         }
     }
 
-    // 확인
-    // /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
-    // /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/
     const onClickSignUp = () => {
         const nameCheck = name !== '';
         const emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i.test(email);

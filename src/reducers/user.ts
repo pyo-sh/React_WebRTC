@@ -18,42 +18,44 @@ const initialState: StateType = {
 };
 
 // Actions
-// action.type 이 string 으로 추론되지 않고 실제 문자열 값으로 추론 되도록
+// action.type 이 string 으로 추론되지 않고 실제 문자열 값으로 추론 되도록 하고
+// with createActions
+export const SET_USER_REQUEST = 'SET_USER_REQUEST' as const;
+export const Set_User_Success = (data: any) => ({
+    type: SET_USER_REQUEST,
+    payload: data,
+});
+
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST' as const;
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS' as const;
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE' as const;
-
-export const SIGNUP_USER_REQUEST = 'SIGNUP_USER_REQUEST' as const;
-export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS' as const;
-export const SIGNUP_USER_FAILURE = 'SIGNUP_USER_FAILURE' as const;
-
-// createActions
-// TODO : make lib request -> success or failure
-export const Login_User_Request = (data: any) => ({
+export const LogIn_User_Request = (data: any) => ({
     type: LOGIN_USER_REQUEST,
     payload: data,
 });
-
-export const Login_User_Success = (data: any) => ({
+export const LogIn_User_Success = (data: any) => ({
     type: LOGIN_USER_SUCCESS,
     payload: data,
 });
-
-export const Login_User_Failure = (error: string) => ({
+export const LogIn_User_Failure = (error: string) => ({
     type: LOGIN_USER_FAILURE,
     error: error,
 });
 
+export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST' as const;
+export const LogOut_User_Request = () => ({ type: LOGOUT_USER_REQUEST });
+
+export const SIGNUP_USER_REQUEST = 'SIGNUP_USER_REQUEST' as const;
+export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS' as const;
+export const SIGNUP_USER_FAILURE = 'SIGNUP_USER_FAILURE' as const;
 export const SignUp_User_Request = (data: any) => ({
     type: SIGNUP_USER_REQUEST,
     payload: data,
 });
-
 export const SignUp_User_Success = (data: any) => ({
     type: SIGNUP_USER_SUCCESS,
     payload: data,
 });
-
 export const SignUp_User_Failure = (error: string) => ({
     type: SIGNUP_USER_FAILURE,
     error: error,
@@ -61,9 +63,11 @@ export const SignUp_User_Failure = (error: string) => ({
 
 // Actions -- Types
 type userAction =
-    |   ReturnType<typeof Login_User_Request>
-    |   ReturnType<typeof Login_User_Success>
-    |   ReturnType<typeof Login_User_Failure>
+    |   ReturnType<typeof Set_User_Success>
+    |   ReturnType<typeof LogIn_User_Request>
+    |   ReturnType<typeof LogIn_User_Success>
+    |   ReturnType<typeof LogIn_User_Failure>
+    |   ReturnType<typeof LogOut_User_Request>
     |   ReturnType<typeof SignUp_User_Request>
     |   ReturnType<typeof SignUp_User_Success>
     |   ReturnType<typeof SignUp_User_Failure>
@@ -74,6 +78,12 @@ function userReducer (
     action: userAction
 ): StateType {
     switch (action.type) {
+        case SET_USER_REQUEST:
+            return {
+                ...state,
+                ...action.payload,
+            }
+        // 로그인
         case LOGIN_USER_REQUEST:
             return {
                 ...state,
@@ -91,6 +101,17 @@ function userReducer (
                 isLoadingUser: false,
                 loadUserErrorReason: action.error
             }
+        // 로그아웃
+        case LOGOUT_USER_REQUEST:
+            return {
+                uid: '',
+                nickname: '',
+                email: '',
+                imageURL: '',
+                isLoadingUser: false,
+                loadUserErrorReason: '',
+            }
+        // 회원가입
         case SIGNUP_USER_REQUEST:
             return {
                 ...state,

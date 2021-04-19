@@ -3,9 +3,11 @@ import axios from 'axios';
 import {
     StateType,
     LOGIN_USER_REQUEST,
-    Login_User_Request,
-    Login_User_Success,
-    Login_User_Failure,
+    LogIn_User_Request,
+    LogIn_User_Success,
+    LogIn_User_Failure,
+    LOGOUT_USER_REQUEST,
+    // LogOut_User_Request,
     SIGNUP_USER_REQUEST,
     SignUp_User_Request,
     SignUp_User_Success,
@@ -13,7 +15,44 @@ import {
 } from 'reducers/user';
 import { db, firebaseApp } from 'config/firebase';
 
-// API 에 옮겨도 되는 항목
+// 로그인
+async function LogInUserAPI({ email, password }: any){
+    const { user } = await firebaseApp.auth().signInWithEmailAndPassword(email, password);
+    if (user && user.uid){
+        return {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            imageURL: user.photoURL,
+        };
+    }
+    else{
+        return {};
+    }
+}
+function* LogInUser(action: ReturnType<typeof LogIn_User_Request>) {
+    try {
+        const result: StateType = yield call(LogInUserAPI, action.payload);
+        console.log('Login payload result', result);
+        yield put(LogIn_User_Success(result));
+    } catch(error) {
+        console.error(error);
+        yield put(LogIn_User_Failure(error));
+    }
+};
+function* watchLogInUser() {
+    yield takeLatest(LOGIN_USER_REQUEST, LogInUser);
+}
+
+// 로그아웃
+function* LogOutUser() {
+    yield firebaseApp.auth().signOut();
+};
+function* watchLogOutUser() {
+    yield takeLatest(LOGOUT_USER_REQUEST, LogOutUser);
+}
+
+// 회원가입 요청 및 저장
 async function signUpUserAPI({ name, email, password, image }: any){
     const { user } = await firebaseApp.auth().createUserWithEmailAndPassword(email, password);
     console.log('signupAPI', user)
@@ -43,13 +82,12 @@ async function signUpUserAPI({ name, email, password, image }: any){
                 };
             });
     }
-    return {};
+    else return {};
 }
-
 function* signUpUser(action: ReturnType<typeof SignUp_User_Request>) {
     try {
         const result: StateType = yield call(signUpUserAPI, action.payload);
-        console.log('signup payload result', action.payload);
+        console.log('signup payload result', result);
         yield put(SignUp_User_Success(result));
     } catch(error) {
         console.error(error);
@@ -62,6 +100,8 @@ function* watchSignUpUser() {
 
 export default function* userSaga() {
     yield all([
+        fork(watchLogInUser),
+        fork(watchLogOutUser),
         fork(watchSignUpUser),
     ]);
 };
