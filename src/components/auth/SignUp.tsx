@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import SignUpBox from 'styles/auth/SignUpBox';
-import { useDispatch } from 'react-redux';
+import SignUpBox, { SignUpWrapper } from 'styles/auth/SignUpBox';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducers';
 import { SignUp_User_Request } from 'reducers/user';
 
@@ -17,6 +18,14 @@ const SignUp: React.FC = () => {
     const [pwCheckCorrect, setPwCheckCorrect] = useState<boolean>(true);
 
     const dispatch = useDispatch();
+    const { uid } = useSelector((state: RootState) => state.user);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (uid) {
+            history.push('/');
+        }
+    }, [uid])
 
     const onChangeInput = (
         setState: React.Dispatch<React.SetStateAction<string>>
@@ -53,53 +62,72 @@ const SignUp: React.FC = () => {
     }
 
     return (
+        <SignUpWrapper>
         <SignUpBox>
-            <input
-                className="SignUpBox-Input"
-                placeholder="이름을 입력하세요"
-                onChange={onChangeInput(setName)}
-                value={name}
-                />
-            {!nameCorrect && "이름을 입력해주세요"}
-            <input
-                className="SignUpBox-Input"
-                placeholder="이메일을 입력하세요"
-                onChange={onChangeInput(setEmail)}
-                value={email}
-                />
-            {!emailCorrect && "이메일 형식에 맞게 적어주세요"}
-            <input
-                className="SignUpBox-Input"
-                placeholder="비밀번호를 입력하세요"
-                onChange={onChangeInput(setPassword)}
-                value={password}
-                />
-            {!pwCorrect && "비밀번호는 최소 1개의 숫자 혹은 특수 문자를 포함해야 합니다"}
-            <input
-                className="SignUpBox-Input"
-                placeholder="비밀번호를 다시 입력하세요"
-                onChange={onChangeInput(setCheckPassword)}
-                value={checkPassword}
-                />
-            {!pwCheckCorrect && "비밀번호를 같게 입력하세요"}
-            <img
-                className="SignUpBox-Image"
-                src={img&&URL.createObjectURL(img)}
-                alt="Profile"
-                />
-            <input
-                className="SignUpBox-Input-Image"
-                type="file"
-                accept="image/jpeg, image/jpg, image/png"
-                onChange={onChangeUpload}
-                />
+            <section className="SignUp-Profile-Section">
+                <div className="SignUp-Profile-Title">프로필 사진</div>
+                <section className="SignUp-Profile-Wrapper">
+                    <img
+                        className="SignUp-Image"
+                        src={img&&URL.createObjectURL(img) ? URL.createObjectURL(img) : 'Profile.png'}
+                        alt="Profile"
+                        />
+                    <input
+                        className="SignUp-Input-Image"
+                        type="file"
+                        accept="image/jpeg, image/jpg, image/png"
+                        onChange={onChangeUpload}
+                        />
+                </section>
+            </section>
+            <section className="SignUp-Section">
+                <strong>이름</strong>
+                <input
+                    className="Delete-Input SignUp-Input"
+                    placeholder="이름을 입력하세요"
+                    onChange={onChangeInput(setName)}
+                    value={name}
+                    />
+                <p>{!nameCorrect && "이름을 입력해주세요"}</p>
+            </section>
+            <section className="SignUp-Section">
+                <strong>이메일</strong>
+                <input
+                    className="Delete-Input SignUp-Input"
+                    placeholder="이메일을 입력하세요"
+                    onChange={onChangeInput(setEmail)}
+                    value={email}
+                    />
+                <p>{!emailCorrect && "이메일 형식에 맞게 적어주세요"}</p>
+            </section>
+            <section className="SignUp-Section">
+                <strong>비밀번호</strong>
+                <input
+                    className="Delete-Input SignUp-Input"
+                    placeholder="비밀번호를 입력하세요"
+                    onChange={onChangeInput(setPassword)}
+                    value={password}
+                    />
+                <p>{!pwCorrect && "비밀번호는 최소 1개의 숫자 혹은 특수 문자를 포함해야 합니다"}</p>
+            </section>
+            <section className="SignUp-Section">
+                <strong>비밀번호 확인</strong>
+                <input
+                    className="Delete-Input SignUp-Input"
+                    placeholder="비밀번호를 다시 입력하세요"
+                    onChange={onChangeInput(setCheckPassword)}
+                    value={checkPassword}
+                    />
+                <p>{!pwCheckCorrect && "비밀번호를 같게 입력하세요"}</p>
+            </section>
             <button
-                className="SignUpBox-Button"
+                className="Delete-Button SignUp-Button"
                 onClick={onClickSignUp}
                 >
-                회원가입
+                회원가입 하기
             </button>
         </SignUpBox>
+        </SignUpWrapper>
     );
 }
 

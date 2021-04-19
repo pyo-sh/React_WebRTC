@@ -1,5 +1,4 @@
 import { call, put, all, fork, takeLatest } from 'redux-saga/effects';
-import axios from 'axios';
 import {
     StateType,
     LOGIN_USER_REQUEST,
