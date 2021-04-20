@@ -3,6 +3,7 @@ import ChatBox from 'styles/chat/ChatBox';
 import ChatUsers from 'components/chat/ChatUsers';
 import Messages from 'components/chat/Messages';
 import MessageInput from 'components/chat/MessageInput';
+import RoomButton from 'components/chat/RoomButton';
 import { db, firebaseApp } from 'config/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducers';
@@ -92,6 +93,9 @@ const Chat: React.FC<ChatPropType> = ({ id }) => {
                     id={id}
                     />
             </section>
+            <RoomButton
+                id={id}
+                />
         </ChatBox>
     );
 }
