@@ -9,8 +9,12 @@ const MainMenuBox = styled.div`
     display: absolute;
 
     .MainMenu-Name-Title {
+        margin: 0 0 10px 0;
         font-size: 16px;
-        margin-bottom: 10px;
+    }
+
+    .MainMenu-Name-Section {
+        display: flex;
     }
 
     .MainMenu-Name-Input {
@@ -26,6 +30,14 @@ const MainMenuBox = styled.div`
             border: 2px solid #112d58;
             border-radius: 5px;
         }
+    }
+
+    .MainMenu-Name-Button {
+        width: 50px;
+        
+        border-radius: 5px;
+        color: #ffffff;
+        background-color: #66bb6a;
     }
 `;
 

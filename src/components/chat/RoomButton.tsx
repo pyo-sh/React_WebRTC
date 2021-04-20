@@ -25,10 +25,10 @@ const RoomButton: React.FC<RoomButtonPropType> = ({ id }) => {
                     if(snapShot.docs.length !== 0){
                         snapShot.docs.forEach((userSnap) => {
                             const user = userSnap.data();
-                            console.log(user);
+                            console.log(userSnap.id);
                             if (user.email) {
-                                chatUserRef.doc(user.id).set({ state: false }).then(() => {
-                                    userRoomRef.doc(user.id).collection('Rooms').doc(id).set({ state: true }).then(() => {
+                                chatUserRef.doc(userSnap.id).set({ state: false }).then(() => {
+                                    userRoomRef.doc(userSnap.id).collection('Rooms').doc(id).set({ state: true }).then(() => {
                                         alert('추가하였습니다!');
                                         setDisplayModal(false);
                                     });
