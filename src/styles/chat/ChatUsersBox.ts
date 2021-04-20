@@ -13,9 +13,14 @@ const ChatUsersBox = styled.div`
     border-radius: 10px;
 
     .ChatUser{
+        margin-top: 10px;
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
+
+        :first-child {
+            margin-top: 0;
+        }
     }
 
     .ChatUser-Profile {
@@ -29,6 +34,7 @@ const ChatUsersBox = styled.div`
     .ChatUser-Name {
         margin: 0;
         flex: 1;
+        text-overflow: ellipsis;
         overflow: hidden;
     }
 `;

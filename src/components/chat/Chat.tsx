@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ChatBox from 'styles/chat/ChatBox';
 import ChatUsers from 'components/chat/ChatUsers';
 import Messages from 'components/chat/Messages';
+import MessageInput from 'components/chat/MessageInput';
 import { db, firebaseApp } from 'config/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducers';
@@ -36,12 +37,12 @@ const Chat: React.FC<ChatPropType> = ({ id }) => {
             userStatusDatabaseRef.set(isOfflineForFirestore);
             userStatusFirestoreRef.set(isOfflineForFirestore);
         }
-    }, [])
+    }, []);
     useEffect(() => {
         // Setting User Connection
         // ref('.info/connected') 에서는 연결됐다면 true, 안됐다면 false를 반환할 것이다.
         firebaseApp.database().ref('.info/connected').on('value', (snapshot) => {
-            console.log('snapshot', snapshot.val())
+            console.log('Database Connected : ', snapshot.val())
             if (snapshot.val() == false) {
                 // Instead of simply returning, we'll also set Firestore's state
                 // to 'offline'. This ensures that our Firestore cache is aware
@@ -62,14 +63,14 @@ const Chat: React.FC<ChatPropType> = ({ id }) => {
         chatUserRef.onSnapshot((snapshot) => {
             // Get All User IDs
             const usersId = snapshot.docs.map((user) => user.id);
+            let userData = {} as any;
             // Get User Informations
-            usersId.forEach(() => {
-                // User Inf
-                userRef.onSnapshot((snapshot_user) => {
-                    const userData = {} as any;
-                    snapshot_user.docs.map((user) => {
-                        userData[user.id] = user.data();
-                    });
+            usersId.forEach((userId) => {
+                userRef.doc(userId).onSnapshot((snapshot_user) => {
+                    userData = {
+                        ...userData,
+                        [userId]: snapshot_user.data(),
+                    };
                     setUsers(userData);
                 })
             });
@@ -87,7 +88,9 @@ const Chat: React.FC<ChatPropType> = ({ id }) => {
                     id={id}
                     users={users}
                     />
-
+                <MessageInput
+                    id={id}
+                    />
             </section>
         </ChatBox>
     );

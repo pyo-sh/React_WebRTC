@@ -17,9 +17,11 @@ const ChatUsers: React.FC<ChatUsersPropType> = ({ id, users }) => {
         Object.keys(users).map((userId) => {
             // User Online & Offline Snapshot
             chatUserRef.doc(userId).onSnapshot((snapshot_line) => {
-                connection = {
-                    ...connection,
-                    [userId]: (snapshot_line.data() as any).state
+                if (snapshot_line.data()){
+                    connection = {
+                        ...connection,
+                        [userId]: (snapshot_line.data() as any).state || false
+                    };
                 }
                 setConnections(connection);
             }, (error) => console.error(error));
@@ -29,7 +31,7 @@ const ChatUsers: React.FC<ChatUsersPropType> = ({ id, users }) => {
 
     const displayUsers = () => {
         return Object.keys(connections).map((userId, index) => {
-            if(connections[userId]){
+            if(connections[userId] && users[userId]){
                 const { name, profileImage } = users[userId];
                 return (
                     <section className="ChatUser" key={index}>
