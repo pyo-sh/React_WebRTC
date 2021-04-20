@@ -20,7 +20,7 @@ const isOnlineForFirestore = {
 
 const Chat: React.FC<ChatPropType> = ({ id }) => {
     const { uid } = useSelector((state: RootState) => state.user);
-    const [ users, setUsers ] = useState<Array<any>>([]);
+    const [ users, setUsers ] = useState<Object>({});
 
     // Using for get Users
     const chatUserRef = db.collection('Chat').doc(id).collection('Users');
@@ -31,9 +31,17 @@ const Chat: React.FC<ChatPropType> = ({ id }) => {
     const userStatusDatabaseRef = firebaseApp.database().ref('/status/' + uid);
 
     useEffect(() => {
+        // IF Unmount, disconnect
+        return () => {
+            userStatusDatabaseRef.set(isOfflineForFirestore);
+            userStatusFirestoreRef.set(isOfflineForFirestore);
+        }
+    }, [])
+    useEffect(() => {
         // Setting User Connection
         // ref('.info/connected') 에서는 연결됐다면 true, 안됐다면 false를 반환할 것이다.
         firebaseApp.database().ref('.info/connected').on('value', (snapshot) => {
+            console.log('snapshot', snapshot.val())
             if (snapshot.val() == false) {
                 // Instead of simply returning, we'll also set Firestore's state
                 // to 'offline'. This ensures that our Firestore cache is aware
@@ -50,28 +58,37 @@ const Chat: React.FC<ChatPropType> = ({ id }) => {
             });
         });
 
-        // Set All Users
-        chatUserRef.onSnapshot(async (snapshot) => {
-            const data = await Promise.all(snapshot.docs.map(async (element) => {
-                const userData = (await userRef.doc(element.id).get()).data();
-                return {
-                    ...element.data(),
-                    ...userData
-                }
-            }));
-            setUsers(data);
+        // User Plus & Added Snapshot
+        chatUserRef.onSnapshot((snapshot) => {
+            // Get All User IDs
+            const usersId = snapshot.docs.map((user) => user.id);
+            // Get User Informations
+            usersId.forEach(() => {
+                // User Inf
+                userRef.onSnapshot((snapshot_user) => {
+                    const userData = {} as any;
+                    snapshot_user.docs.map((user) => {
+                        userData[user.id] = user.data();
+                    });
+                    setUsers(userData);
+                })
+            });
         });
     }, [id]);
 
     return (
         <ChatBox>
             <ChatUsers
-                users={users}
-                />
-            <Messages
                 id={id}
                 users={users}
                 />
+            <section className="Chat-Message-Wrapper">
+                <Messages
+                    id={id}
+                    users={users}
+                    />
+
+            </section>
         </ChatBox>
     );
 }

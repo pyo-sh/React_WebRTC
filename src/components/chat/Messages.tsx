@@ -3,7 +3,7 @@ import MessagesBox from 'styles/chat/MessagesBox';
 
 type MessagesPropType = {
     id: string,
-    users: Array<any>,
+    users: Object,
 }
 
 const Messages: React.FC<MessagesPropType> = ({ id, users }) => {
