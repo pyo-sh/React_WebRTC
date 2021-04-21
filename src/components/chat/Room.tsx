@@ -29,10 +29,15 @@ const Room: React.FC = ({ match }: any) => {
     const userStatusDatabaseRef = firebaseApp.database().ref('/status/' + uid);
 
     useEffect(() => {
-        // IF Unmount, disconnect
-        return () => {
+        const leaveEvent = () => {
             userStatusDatabaseRef.set(isOfflineForFirestore);
             userStatusFirestoreRef.set(isOfflineForFirestore);
+        }
+        window.addEventListener('unload', leaveEvent)
+        // IF Unmount, disconnect
+        return () => {
+            leaveEvent();
+            window.removeEventListener('unload', leaveEvent);
         }
     }, []);
     useEffect(() => {

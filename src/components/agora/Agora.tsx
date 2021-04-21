@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import AgoraBox from 'styles/agora/AgoraBox';
 import AgoraRTC, { ILocalTrack, UID, IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducers';
+import { camera, noCamera, audio, noAudio } from 'components/agora/Icons';
 
 let client = AgoraRTC.createClient({
     mode: "rtc",
@@ -52,9 +53,11 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
     const [unpublishedUid, setUnpublishedUid] = useState<any>(undefined);
 
     useEffect(() => {
-        // joinChannel();
+        joinChannel();
+        window.addEventListener('unload', leaveChannel)
         return () => {
             leaveChannel();
+            window.removeEventListener('unload', leaveChannel)
         }
     }, [])
 
@@ -79,8 +82,15 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
             // })
 
             options.uid = await client.join(options.appId, roomId, options.token || null, my_uid);
-            localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-            localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
+            
+            const hasAudio = await AgoraRTC.getMicrophones(true);
+            const hasVideo = await AgoraRTC.getCameras(true);
+            if (hasAudio.length !== 0){
+                localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+            }
+            if (hasVideo.length !== 0){
+                localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
+            }
 
             const clientArray = [];
             if (localTracks.audioTrack){
@@ -110,7 +120,7 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
                 localTracks[trackName] = undefined;
             }
         })
-  
+        await client.unpublish();
         await client.leave();    
         setJoined(false);
     }
@@ -136,8 +146,6 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
     const userPublished = (user: any, mediaType: any) => {
         if(!publishedUids.filter((publishedUser) => publishedUser.uid == user.uid).length){
             setPublishedUids([...publishedUids, user]);
-        console.log('ddddddddddddddddddddddddddddddddddddddddd')
-
         }
         userSubscribe(user, mediaType);
     }
@@ -154,8 +162,6 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
     // 유저의 Subscribe
     const userSubscribe = async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video") => {
         await client.subscribe(user, mediaType);
-        console.log("subscribe success");
-
         if (mediaType === 'video' && user.hasVideo) {
             (user.videoTrack as any).play(`Agora-Player-${user.uid}`);
         } 
@@ -191,7 +197,7 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
             name = users[uid].name;
         }
         return (
-            <div className="Agora-Player-Name">{name}</div>
+            <p className="Agora-Player-Name">{name}</p>
         );
     }
     
@@ -216,23 +222,26 @@ const Agora: React.FC<AgoraPropType> = ({ roomId, users }) => {
             : null}
             </ul>
             <section className="Agora-Controller">
-                <input
-                    type="button"
-                    value="Join"
-                    onClick={joinChannel}
-                    disabled={joined ? true : false}
-                    />
-                <input
-                    type="button"
-                    value="Leave"
-                    onClick={leaveChannel}
-                    disabled={joined ? false : true}
-                    />
-                <input
-                    type="button"
-                    value={myVideo ? "Off" : "Display"}
-                    onClick={() => setMyVideo(prev => !prev)}
-                    />
+                <button
+                    className="Delete-Button Agora-Button"
+                    onClick={() => {
+                        if (localTracks.videoTrack){
+                            setMyVideo(prev => !prev);
+                        }
+                    }}
+                    >
+                    {myVideo ? camera() : noCamera()}
+                </button>
+                <button
+                    className="Delete-Button Agora-Button"
+                    onClick={() => {
+                        if (localTracks.audioTrack){
+                            setMyAudio(prev => !prev);
+                        }
+                    }}
+                    >
+                    {myAudio ? audio() : noAudio() }
+                </button>
             </section>
         </AgoraBox>
     );

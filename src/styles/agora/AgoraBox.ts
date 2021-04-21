@@ -50,8 +50,9 @@ const AgoraBox = styled.div`
 
         .Agora-Player-Name {
             z-index: 5;
-            width: 50px;
-            height: 30px;
+            width: 100px;
+            height: 25px;
+            padding: 5px 0 0 5px;
             margin: 0;
             position: absolute;
             color: white;
@@ -78,8 +79,20 @@ const AgoraBox = styled.div`
     .Agora-Controller {
         width: 100%;
         height: 50px;
-        background-color: black;
-        opacity: 0.4;
+        background-color: rgba(133, 133, 133);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .Agora-Button {
+        width: 50px;
+        height: 30px;
+
+        :last-child {
+            margin-left: 30px;
+        }
     }
 `;
 
