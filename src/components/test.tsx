@@ -125,7 +125,7 @@ const Test: React.FC = () => {
         // );
 
         // user.videoTrack.play(`player-${uid}`);
-        }
+        } 
         if (mediaType === 'audio' && user.audioTrack) {
             user.audioTrack.play();
         }
