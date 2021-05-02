@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/reactWebRTC/static/css/main.57283101.chunk.css",
-    "main.js": "/reactWebRTC/static/js/main.e611f156.chunk.js",
-    "main.js.map": "/reactWebRTC/static/js/main.e611f156.chunk.js.map",
-    "runtime-main.js": "/reactWebRTC/static/js/runtime-main.7a2ba7c0.js",
-    "runtime-main.js.map": "/reactWebRTC/static/js/runtime-main.7a2ba7c0.js.map",
-    "static/js/2.fd016085.chunk.js": "/reactWebRTC/static/js/2.fd016085.chunk.js",
-    "static/js/2.fd016085.chunk.js.map": "/reactWebRTC/static/js/2.fd016085.chunk.js.map",
-    "index.html": "/reactWebRTC/index.html",
-    "static/css/main.57283101.chunk.css.map": "/reactWebRTC/static/css/main.57283101.chunk.css.map",
-    "static/js/2.fd016085.chunk.js.LICENSE.txt": "/reactWebRTC/static/js/2.fd016085.chunk.js.LICENSE.txt"
+    "main.css": "/React_WebRTC/static/css/main.57283101.chunk.css",
+    "main.js": "/React_WebRTC/static/js/main.e611f156.chunk.js",
+    "main.js.map": "/React_WebRTC/static/js/main.e611f156.chunk.js.map",
+    "runtime-main.js": "/React_WebRTC/static/js/runtime-main.383c2dfd.js",
+    "runtime-main.js.map": "/React_WebRTC/static/js/runtime-main.383c2dfd.js.map",
+    "static/js/2.5af5945c.chunk.js": "/React_WebRTC/static/js/2.5af5945c.chunk.js",
+    "static/js/2.5af5945c.chunk.js.map": "/React_WebRTC/static/js/2.5af5945c.chunk.js.map",
+    "index.html": "/React_WebRTC/index.html",
+    "static/css/main.57283101.chunk.css.map": "/React_WebRTC/static/css/main.57283101.chunk.css.map",
+    "static/js/2.5af5945c.chunk.js.LICENSE.txt": "/React_WebRTC/static/js/2.5af5945c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7a2ba7c0.js",
-    "static/js/2.fd016085.chunk.js",
+    "static/js/runtime-main.383c2dfd.js",
+    "static/js/2.5af5945c.chunk.js",
     "static/css/main.57283101.chunk.css",
     "static/js/main.e611f156.chunk.js"
   ]
