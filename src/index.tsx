@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import GlobalStyle from 'styles/GlobalStyle';
 // 라우터
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 // Redux 기본 Setting
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -19,11 +19,11 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
     <React.StrictMode>
         <GlobalStyle/>
-        <BrowserRouter>
+        <Router>
         <Provider store={store}>
             <App/>
         </Provider>
-        </BrowserRouter>
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 );
